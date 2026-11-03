@@ -1,0 +1,561 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Little Journey for Naba ❤️</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Playfair+Display:wght@600;700&display=swap');
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:Nunito,sans-serif;
+  color:#514052;
+  overflow:hidden;
+  background:#fff5f5;
+}
+
+.scene{
+  display:none;
+  height:100svh;
+  width:100%;
+  padding:12px 16px 48px;
+  gap:5px;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  text-align:center;
+  overflow:hidden;
+  background:linear-gradient(145deg,#fff0f3,#f0e9ff,#fff5df);
+}
+
+.scene.active{
+  display:flex;
+  animation:fade .7s ease;
+}
+
+@keyframes fade{
+  from{opacity:0;transform:translateY(12px)}
+  to{opacity:1;transform:none}
+}
+
+h1,h2{font-family:"Playfair Display",serif}
+h1{font-size:clamp(2rem,7vw,3.5rem);margin:5px 0}
+h2{font-size:clamp(1.6rem,5vw,2.5rem);margin:5px 0}
+
+p{
+  font-size:clamp(.9rem,3.5vw,1.05rem);
+  line-height:1.45;
+  max-width:550px;
+  margin:5px auto;
+}
+
+.small{font-size:.85rem;opacity:.7}
+
+.art{
+  font-size:clamp(3rem,12vw,5.5rem);
+  animation:bob 2.5s ease-in-out infinite;
+}
+
+.character{
+  font-size:clamp(2.5rem,10vw,4rem);
+  display:inline-block;
+  animation:bob 2.5s infinite;
+}
+
+@keyframes bob{
+  50%{transform:translateY(-10px) rotate(2deg)}
+}
+
+.row{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.card{
+  width:min(94%,540px);
+  padding:15px 20px;
+  border-radius:24px;
+  background:#ffffffdc;
+  box-shadow:0 12px 35px #85648b20;
+}
+
+button{
+  border:0;
+  border-radius:40px;
+  background:#e98eaf;
+  color:white;
+  padding:12px 23px;
+  margin:6px 4px;
+  font:bold 1rem Nunito;
+  box-shadow:0 5px 0 #c66e91;
+  cursor:pointer;
+  flex-shrink:0;
+}
+
+button:active{
+  transform:translateY(3px);
+  box-shadow:none;
+}
+
+button:disabled{
+  opacity:.5;
+  cursor:not-allowed;
+}
+
+.purple{
+  background:#a58bd9;
+  box-shadow:0 5px 0 #8068b6;
+}
+
+.map{
+  height:150px;
+  width:min(90vw,500px);
+  background:linear-gradient(130deg,#d9efff,#e9e0ff);
+  border-radius:22px;
+  position:relative;
+  margin:8px auto;
+  flex-shrink:1;
+}
+
+.route{
+  position:absolute;
+  top:50%;
+  left:15%;
+  right:15%;
+  border-top:4px dashed #a58bd9;
+}
+
+.plane{
+  position:absolute;
+  top:28%;
+  left:12%;
+  font-size:2.4rem;
+  animation:fly 4s infinite alternate;
+}
+
+@keyframes fly{
+  to{left:78%;transform:rotate(10deg)}
+}
+
+.city{
+  position:absolute;
+  bottom:12px;
+  font-size:2rem;
+}
+
+.city.left{left:12px}
+.city.right{right:12px}
+
+.progress{
+  position:fixed;
+  bottom:9px;
+  left:0;
+  right:0;
+  display:flex;
+  justify-content:center;
+  gap:6px;
+  z-index:15;
+  pointer-events:none;
+}
+
+.dot{
+  height:7px;
+  width:7px;
+  background:#d8c7dc;
+  border-radius:10px;
+}
+
+.dot.on{
+  width:22px;
+  background:#b77ca8;
+}
+
+/* Birthday candle */
+.cake-wrap{
+  position:relative;
+  display:inline-block;
+  margin:10px;
+}
+
+.cake{
+  font-size:clamp(6rem,22vw,9rem);
+  line-height:1.2;
+}
+
+.flame{
+  position:absolute;
+  top:2px;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:2.3rem;
+  animation:flicker .5s infinite alternate;
+}
+
+@keyframes flicker{
+  to{
+    transform:translateX(-50%) scale(.8) rotate(7deg);
+    opacity:.65;
+  }
+}
+
+.flame.out{display:none}
+
+.smoke{
+  display:none;
+  font-size:2rem;
+  position:absolute;
+  top:-12px;
+  left:48%;
+  animation:smoke 1.2s ease-out;
+}
+
+@keyframes smoke{
+  to{transform:translateY(-40px);opacity:0}
+}
+
+/* Letter */
+.letter{
+  width:min(94%,620px);
+  max-height:62svh;
+  overflow-y:auto;
+  padding:22px;
+  border-radius:24px;
+  background:#ffffffed;
+  text-align:left;
+  line-height:1.85;
+  white-space:pre-line;
+  box-shadow:0 12px 35px #85648b20;
+  scrollbar-width:thin;
+  scrollbar-color:#d9a6c4 transparent;
+  font-size:.95rem;
+}
+
+.letter h2{text-align:center}
+
+#confetti{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:20;
+}
+
+@media(max-height:700px){
+  .scene{padding-top:6px;gap:2px}
+  .scene .art{font-size:3rem}
+  .scene .character{font-size:2.5rem}
+  .scene button{padding:10px 18px;margin:4px}
+  .map{height:110px}
+  .letter{max-height:57svh}
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="confetti"></canvas>
+
+<!-- SCENE 1: OPENING -->
+<section class="scene active" id="s1">
+  <div class="art">🎁</div>
+  <p class="small">A tiny surprise has travelled a very long way...</p>
+  <h1>For Naba ✨</h1>
+  <p>Some birthday wishes deserve a little adventure.</p>
+  <button onclick="go(2)">Open your surprise 💌</button>
+</section>
+
+<!-- SCENE 2: INDIA -->
+<section class="scene" id="s2">
+  <div class="art">🇮🇳</div>
+  <h2>It all starts in India...</h2>
+  <p>A little traveller is getting ready for a very special journey.</p>
+
+  <div class="row">
+    <span class="character">🧑🏻‍🦱</span>
+    <span class="character">🧳</span>
+    <span class="character">🌷</span>
+  </div>
+
+  <div class="card">
+    <b>Packing checklist</b>
+    <p>✓ A suitcase full of excitement</p>
+    <p>✓ A bouquet of flowers</p>
+    <p>✓ A birthday wish saved especially for Naba</p>
+  </div>
+
+  <button onclick="go(3)">Let's take off ✈️</button>
+</section>
+
+<!-- SCENE 3: FLIGHT -->
+<section class="scene" id="s3">
+  <div class="art">✈️</div>
+  <h2>Across the skies...</h2>
+  <p>Thousands of kilometres, clouds, and one very important destination.</p>
+
+  <div class="map">
+    <div class="route"></div>
+    <div class="city left">🇮🇳</div>
+    <div class="city right">🇩🇪</div>
+    <div class="plane">✈️</div>
+  </div>
+
+  <p class="small">India → Berlin, Germany</p>
+  <button onclick="go(4)">We've arrived! 🌍</button>
+</section>
+
+<!-- SCENE 4: BERLIN -->
+<section class="scene" id="s4">
+  <div class="art">🏙️</div>
+  <h2>Hallo, Berlin! 🇩🇪</h2>
+  <p>The little traveller has finally arrived. The city looks magical today...</p>
+
+  <div class="row">
+    <span class="character">🧑🏻‍🦱</span>
+    <span class="character">💐</span>
+    <span class="character">🚲</span>
+  </div>
+
+  <div class="card">
+    <p>One last stop. Someone wonderful is waiting for a birthday wish. 💗</p>
+  </div>
+
+  <button onclick="go(5)">Deliver the flowers 🌸</button>
+</section>
+
+<!-- SCENE 5: FLOWERS -->
+<section class="scene" id="s5">
+  <div class="art">💐</div>
+  <h2>A little something for you...</h2>
+
+  <div class="row">
+    <span class="character">🧑🏻‍🦱</span>
+    <span class="character">🌷</span>
+    <span class="character">👩🏻‍🦰</span>
+  </div>
+
+  <div class="card">
+    <p>Naba, imagine opening the door and finding this little cartoon traveller standing there with flowers and the biggest smile.</p>
+    <p><b>"I travelled all this way just to say..."</b></p>
+  </div>
+
+  <button onclick="go(6)">There's something waiting for you 🎂</button>
+</section>
+
+<!-- SCENE 6: BLOW THE CANDLE -->
+<section class="scene" id="s6">
+  <div class="art">🎂</div>
+  <h2>Make a birthday wish, Naba! ✨</h2>
+  <p>Close your eyes, make a little wish, and blow out the candle.</p>
+
+  <div class="cake-wrap">
+    <div class="flame" id="flame">🔥</div>
+    <div class="smoke" id="smoke">💨</div>
+    <div class="cake">🎂</div>
+  </div>
+
+  <p class="small" id="candleHint">Your birthday candle is waiting...</p>
+  <button id="blowButton" onclick="blowCandle()">Blow the candle 🕯️</button>
+</section>
+
+<!-- SCENE 7: BIRTHDAY REVEAL -->
+<section class="scene" id="s7">
+  <div class="art">🎉🎈✨</div>
+  <h1>Happiest Birthday, Naba!</h1>
+
+  <div class="row">
+    <span class="character">🧁</span>
+    <span class="character">🎂</span>
+    <span class="character">🎀</span>
+  </div>
+
+  <div class="card">
+    <p>May your days be full of beautiful adventures, unexpected happiness, warm hugs and endless reasons to smile.</p>
+    <p>May every little wish in your heart find its way to you. ❤️</p>
+  </div>
+
+  <button onclick="go(8)">One last little note 💌</button>
+</section>
+
+<!-- SCENE 8: COMPLETE LETTER -->
+<section class="scene" id="s8">
+  <div class="art">💌</div>
+
+  <div class="letter">
+<h2>Dear Naba, ❤️</h2>
+
+I don’t know if I’ve ever told you how beautiful I have always found you. And perhaps that’s one of the many things I never said enough.
+
+I still remember how it all began. You were just someone on my Instagram, someone I found myself looking at a little longer than I probably should have. I liked you from the very beginning, even before we started talking properly.
+
+But there was a part of me you probably didn’t completely understand.
+
+I had just come out of a relationship, and I was not looking for love anymore. I had convinced myself that being alone was easier than trusting someone again. I wasn’t ready to give someone the power to hurt me. And honestly, I had made peace with the idea of never committing to anyone again.
+
+Then you came along.
+
+We started talking, slowly got closer, and somewhere between those conversations, you became someone I genuinely looked forward to. I liked you more than I wanted to admit. But I was scared. I remember how you convinced me that you would be there, that you wouldn’t hurt me, that I didn’t have to be afraid of loving again.
+
+And somehow, I believed you.
+
+For someone who had built so many walls around his heart, letting you in wasn’t a small thing. It was probably one of the bravest things I had done for myself in a long time.
+
+And that’s why, even after everything that happened, some questions still visit me when the world gets quiet.
+
+I sometimes wonder whether those promises were real. Whether you meant every word when you told me I was safe with you. Whether the person who convinced me to believe in love again ever understood how much it took for me to believe.
+
+I don’t ask these questions because I want answers today. And I certainly don’t want to make your birthday about the things that hurt.
+
+I just wish you knew that what I felt was real. That the trust I gave you was real. And that the person who once thought he would never love again genuinely tried.
+
+And now, let me tell you something I should have told you openly a long time ago.
+
+You are beautiful, Naba. Not just in the usual way people compliment someone. There’s something about your face that I have always admired. Your smile, your eyes, the little details that make you you. And that nose ring… I don’t think you realise how much I loved that little detail about you. It suited you so beautifully. I probably noticed it a hundred times and said it far too few.
+
+I wish I had complimented you more. I wish I hadn’t kept so many lovely things to myself.
+
+Today, I don’t want to remind you of sadness, make you feel guilty, or ask you to explain anything. I just want you to feel celebrated.
+
+I hope Berlin gives you beautiful mornings, unexpected adventures, warm hugs, and the kind of happiness that stays long after the day ends. I hope you never stop smiling, never doubt your beauty, and never stop becoming the person you want to be.
+
+And if there’s one thing I hope you remember, it’s this:
+
+Some people don’t realise how difficult it was for someone to open their heart again. But you were once the person who made me want to try.
+
+Happy Birthday, Naba. ❤️
+
+May life be gentle with you. May your dreams find you. And may you always have a reason to look at yourself in the mirror and smile.
+
+With a heart that once found the courage to try again,
+
+From India, with warmth. 🌷
+  </div>
+
+  <button onclick="go(9)">The end of our little adventure ✨</button>
+</section>
+
+<!-- SCENE 9: FINALE -->
+<section class="scene" id="s9">
+  <div class="art">🌷🦋🌷</div>
+  <h1>Stay magical, Naba.</h1>
+  <p>And may life always surprise you in the sweetest ways.</p>
+  <div class="character">🎈</div>
+  <button onclick="go(1)">Take the journey again ↻</button>
+  <p class="small">Made with a little imagination, from India to Berlin.</p>
+</section>
+
+<div class="progress" id="progress"></div>
+
+<script>
+let current=1;
+const total=9;
+
+function drawProgress(){
+  const progress=document.getElementById("progress");
+  progress.innerHTML="";
+
+  for(let i=1;i<=total;i++){
+    const dot=document.createElement("span");
+    dot.className="dot"+(i===current?" on":"");
+    progress.appendChild(dot);
+  }
+}
+
+function go(n){
+  document.getElementById("s"+current).classList.remove("active");
+  current=n;
+  document.getElementById("s"+current).classList.add("active");
+  drawProgress();
+
+  if(n===6){
+    document.getElementById("flame").classList.remove("out");
+    document.getElementById("smoke").style.display="none";
+    document.getElementById("blowButton").disabled=false;
+    document.getElementById("candleHint").textContent="Your birthday candle is waiting...";
+  }
+
+  if(n===7) launchConfetti();
+}
+
+function blowCandle(){
+  const flame=document.getElementById("flame");
+  const smoke=document.getElementById("smoke");
+  const button=document.getElementById("blowButton");
+  const hint=document.getElementById("candleHint");
+
+  flame.classList.add("out");
+  smoke.style.display="block";
+  hint.textContent="Your wish is on its way... ✨";
+  button.disabled=true;
+  button.textContent="Candle blown! ❤️";
+
+  launchConfetti();
+
+  setTimeout(()=>{
+    go(7);
+  },2200);
+}
+
+const canvas=document.getElementById("confetti");
+const ctx=canvas.getContext("2d");
+let pieces=[];
+let running=false;
+
+function launchConfetti(){
+  canvas.width=window.innerWidth;
+  canvas.height=window.innerHeight;
+
+  pieces=Array.from({length:150},()=>({
+    x:Math.random()*canvas.width,
+    y:-Math.random()*canvas.height,
+    size:4+Math.random()*7,
+    speed:2+Math.random()*4,
+    color:["#ff8eae","#a58bd9","#ffd166","#9edbc4","#ffb8c9"][Math.floor(Math.random()*5)],
+    spin:Math.random()*6
+  }));
+
+  if(!running) animate();
+}
+
+function animate(){
+  running=true;
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  pieces.forEach(p=>{
+    ctx.save();
+    ctx.translate(p.x,p.y);
+    ctx.rotate(p.spin);
+    ctx.fillStyle=p.color;
+    ctx.fillRect(-p.size/2,-p.size/2,p.size,p.size);
+    ctx.restore();
+
+    p.y+=p.speed;
+    p.x+=Math.sin(p.y/30);
+    p.spin+=.04;
+  });
+
+  pieces=pieces.filter(p=>p.y<canvas.height+20);
+
+  if(pieces.length){
+    requestAnimationFrame(animate);
+  }else{
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    running=false;
+  }
+}
+
+window.addEventListener("resize",()=>{
+  canvas.width=window.innerWidth;
+  canvas.height=window.innerHeight;
+});
+
+drawProgress();
+</script>
+</body>
+</html>
